@@ -303,15 +303,15 @@ export default function EventForm({
 
           {/* Modal */}
           <motion.div
-            className="fixed inset-0 flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 flex items-center justify-center z-50 p-2 sm:p-4"
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
           >
-            <div className="bg-card border border-border rounded-lg shadow-strong p-6 w-full max-w-md">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold">
+            <div className="bg-card border border-border rounded-lg shadow-strong p-4 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between mb-4 sm:mb-6">
+                <h2 className="text-lg sm:text-xl font-semibold">
                   {event ? 'Edit Event' : 'Create Event'}
                 </h2>
                 <Button variant="secondary" size="sm" onClick={onClose}>
@@ -334,7 +334,7 @@ export default function EventForm({
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="date">Date</Label>
                     <div className="relative">
@@ -373,7 +373,7 @@ export default function EventForm({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="startTime">Start Time</Label>
                     <div className="relative">
@@ -431,8 +431,8 @@ export default function EventForm({
                   />
                 </div>
 
-                <div className="flex gap-3 pt-4">
-                  <Button type="submit" className="flex-1">
+                <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                  <Button type="submit" className="flex-1 text-sm sm:text-base">
                     {event ? 'Update Event' : 'Create Event'}
                   </Button>
 
@@ -441,6 +441,7 @@ export default function EventForm({
                       type="button"
                       variant="destructive"
                       onClick={onDelete}
+                      className="text-sm sm:text-base"
                     >
                       Delete
                     </Button>

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay, isToday, isSameMonth } from 'date-fns';
 import { CalendarEvent, CalendarDay } from '@/types/calendar';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface CalendarGridProps {
   currentDate: Date;
@@ -19,11 +20,12 @@ const categoryColors = {
 };
 
 export default function CalendarGrid({ currentDate, events, onDateClick, onEventClick }: CalendarGridProps) {
+  const isMobile = useIsMobile();
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);
   const calendarStart = startOfWeek(monthStart);
   const calendarEnd = endOfWeek(monthEnd);
-  
+
   const calendarDays = eachDayOfInterval({ start: calendarStart, end: calendarEnd });
 
   const getEventsForDate = (date: Date): CalendarEvent[] => {
@@ -42,10 +44,11 @@ export default function CalendarGrid({ currentDate, events, onDateClick, onEvent
   return (
     <div className="w-full max-w-6xl mx-auto">
       {/* Week Header */}
-      <div className="grid grid-cols-7 gap-px mb-2">
+      <div className="grid grid-cols-7 gap-px mb-1 sm:mb-2">
         {weekDays.map((day) => (
-          <div key={day} className="p-4 text-center text-sm font-medium text-muted-foreground">
-            {day}
+          <div key={day} className="p-2 sm:p-3 lg:p-4 text-center text-xs sm:text-sm font-medium text-muted-foreground">
+            <span className="hidden sm:inline">{day}</span>
+            <span className="sm:hidden">{day.slice(0, 1)}</span>
           </div>
         ))}
       </div>
@@ -59,8 +62,9 @@ export default function CalendarGrid({ currentDate, events, onDateClick, onEvent
       >
         {calendarDays.map((date, index) => {
           const dayData = getDayData(date);
-          const visibleEvents = dayData.events.slice(0, 3);
-          const hasMoreEvents = dayData.events.length > 3;
+          const maxEvents = isMobile ? 2 : 3;
+          const visibleEvents = dayData.events.slice(0, maxEvents);
+          const hasMoreEvents = dayData.events.length > maxEvents;
 
           return (
             <motion.div
@@ -85,18 +89,18 @@ export default function CalendarGrid({ currentDate, events, onDateClick, onEvent
             >
               <div className="flex flex-col h-full">
                 <div className={cn(
-                  "text-sm font-medium mb-2",
+                  "text-xs sm:text-sm font-medium mb-1 sm:mb-2",
                   dayData.isToday ? "text-calendar-today-foreground" : "text-foreground"
                 )}>
                   {format(date, 'd')}
                 </div>
-                
-                <div className="space-y-1 flex-1">
+
+                <div className="space-y-0.5 sm:space-y-1 flex-1">
                   {visibleEvents.map((event, eventIndex) => (
                     <motion.div
                       key={event.id}
                       className={cn(
-                        "text-xs p-1 rounded truncate cursor-pointer transition-all duration-200",
+                        "text-xs p-0.5 sm:p-1 rounded truncate cursor-pointer transition-all duration-200",
                         categoryColors[event.category || 'personal'],
                         "text-white hover:shadow-md"
                       )}
@@ -110,7 +114,7 @@ export default function CalendarGrid({ currentDate, events, onDateClick, onEvent
                       whileHover={{ scale: 1.05 }}
                     >
                       <div className="font-medium truncate">{event.title}</div>
-                      <div className="opacity-80">{event.startTime}</div>
+                      <div className="opacity-80 hidden sm:block">{event.startTime}</div>
                     </motion.div>
                   ))}
                   

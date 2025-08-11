@@ -91,132 +91,137 @@ export default function Calendar() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="min-h-screen bg-background"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
         {/* Header */}
-        <motion.div 
-          className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8"
+        <motion.div
+          className="flex flex-col gap-4 mb-6 sm:mb-8"
           variants={itemVariants}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <div className="flex items-center gap-6">
-            <motion.h1 
-              className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              Calendar
-            </motion.h1>
-            
-            <motion.div 
-              className="text-sm text-muted-foreground"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.5 }}
-            >
-              {events.length} events this month
-            </motion.div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-            
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button
-                onClick={() => setIsEventFormOpen(true)}
-                className="gap-2"
-                size="sm"
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+              <motion.h1
+                className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
               >
-                <Plus className="h-4 w-4" />
-                New Event
-              </Button>
-            </motion.div>
+                Calendar
+              </motion.h1>
+
+              <motion.div
+                className="text-xs sm:text-sm text-muted-foreground"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                {events.length} events this month
+              </motion.div>
+            </div>
+
+            <div className="flex items-center gap-2 sm:gap-3">
+              <ThemeToggle />
+
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button
+                  onClick={() => setIsEventFormOpen(true)}
+                  className="gap-1 sm:gap-2"
+                  size="sm"
+                >
+                  <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden xs:inline">New Event</span>
+                  <span className="xs:hidden">New</span>
+                </Button>
+              </motion.div>
+            </div>
           </div>
         </motion.div>
 
         {/* Navigation */}
-        <motion.div 
-          className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8"
+        <motion.div
+          className="flex flex-col gap-4 mb-6 sm:mb-8"
           variants={itemVariants}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Button variant="secondary" size="sm" onClick={goToPreviousMonth}>
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-              </motion.div>
-              
-              <motion.h2 
-                className="text-2xl font-semibold min-w-[200px] text-center"
-                key={currentDate.toISOString()}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                {format(currentDate, 'MMMM yyyy')}
-              </motion.h2>
-              
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Button variant="secondary" size="sm" onClick={goToNextMonth}>
-                  <ChevronRight className="h-4 w-4" />
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center justify-center sm:justify-start gap-2 sm:gap-4">
+              <div className="flex items-center gap-1 sm:gap-2">
+                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                  <Button variant="secondary" size="sm" onClick={goToPreviousMonth}>
+                    <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />
+                  </Button>
+                </motion.div>
+
+                <motion.h2
+                  className="text-lg sm:text-xl lg:text-2xl font-semibold min-w-[140px] sm:min-w-[200px] text-center"
+                  key={currentDate.toISOString()}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {format(currentDate, 'MMMM yyyy')}
+                </motion.h2>
+
+                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                  <Button variant="secondary" size="sm" onClick={goToNextMonth}>
+                    <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
+                  </Button>
+                </motion.div>
+              </div>
+
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button variant="outline" size="sm" onClick={goToToday} className="text-xs sm:text-sm">
+                  Today
                 </Button>
               </motion.div>
             </div>
 
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button variant="outline" size="sm" onClick={goToToday}>
-                Today
-              </Button>
-            </motion.div>
-          </div>
+            {/* View Toggle */}
+            <div className="flex items-center bg-muted rounded-lg p-1 mx-auto sm:mx-0">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button
+                  variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('grid')}
+                  className={cn(
+                    "gap-1 sm:gap-2 text-xs sm:text-sm",
+                    viewMode === 'grid' && "shadow-sm"
+                  )}
+                >
+                  <Grid3X3 className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden xs:inline">Grid</span>
+                </Button>
+              </motion.div>
 
-          {/* View Toggle */}
-          <div className="flex items-center bg-muted rounded-lg p-1">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button
-                variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('grid')}
-                className={cn(
-                  "gap-2",
-                  viewMode === 'grid' && "shadow-sm"
-                )}
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <Grid3X3 className="h-4 w-4" />
-                Grid
-              </Button>
-            </motion.div>
-            
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button
-                variant={viewMode === 'list' ? 'secondary' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('list')}
-                className={cn(
-                  "gap-2",
-                  viewMode === 'list' && "shadow-sm"
-                )}
-              >
-                <List className="h-4 w-4" />
-                List
-              </Button>
-            </motion.div>
+                <Button
+                  variant={viewMode === 'list' ? 'secondary' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('list')}
+                  className={cn(
+                    "gap-1 sm:gap-2 text-xs sm:text-sm",
+                    viewMode === 'list' && "shadow-sm"
+                  )}
+                >
+                  <List className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden xs:inline">List</span>
+                </Button>
+              </motion.div>
+            </div>
           </div>
         </motion.div>
 
