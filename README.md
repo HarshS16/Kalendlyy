@@ -182,5 +182,8 @@ If you have any questions or need help with the project:
 - Open an issue on GitHub
 - Check the documentation for the technologies used
 - Contribute to the project by submitting pull requests
+- ## AI Tools Used :
+- Lovable for basic UI
+- Github Augment extension for debugging 
 
 ---
