@@ -112,20 +112,20 @@ export default function ThemeToggle() {
             {getThemeText()}
           </SelectValue>
         </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="light">
+        <SelectContent className="z-[60] bg-background border border-border shadow-xl backdrop-blur-md">
+          <SelectItem value="light" className="focus:bg-accent/50">
             <div className="flex items-center gap-2">
               <Sun className="h-4 w-4" />
               Light
             </div>
           </SelectItem>
-          <SelectItem value="dark">
+          <SelectItem value="dark" className="focus:bg-accent/50">
             <div className="flex items-center gap-2">
               <Moon className="h-4 w-4" />
               Dark
             </div>
           </SelectItem>
-          <SelectItem value="system">
+          <SelectItem value="system" className="focus:bg-accent/50">
             <div className="flex items-center gap-2">
               <Monitor className="h-4 w-4" />
               System
