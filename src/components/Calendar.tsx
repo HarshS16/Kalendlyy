@@ -4,7 +4,9 @@ import { format, addMonths, subMonths } from 'date-fns';
 import { ChevronLeft, ChevronRight, Grid3X3, List, Plus } from 'lucide-react';
 import { CalendarEvent, ViewMode } from '@/types/calendar';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useToast } from '@/hooks/useToast';
 import { Button } from '@/components/ui/button';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import CalendarGrid from './CalendarGrid';
 import CalendarList from './CalendarList';
 import EventForm from './EventForm';
@@ -37,6 +39,7 @@ export default function Calendar() {
   const [isEventFormOpen, setIsEventFormOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | undefined>();
+  const { success, error, info } = useToast();
 
   const goToPreviousMonth = () => {
     setCurrentDate(prev => subMonths(prev, 1));
@@ -66,9 +69,11 @@ export default function Calendar() {
     if (selectedEvent) {
       // Update existing event
       setEvents(prev => prev.map(e => e.id === event.id ? event : e));
+      success('Event Updated! ✨', `"${event.title}" has been successfully updated.`);
     } else {
       // Add new event
       setEvents(prev => [...prev, event]);
+      success('Event Created! 🎉', `"${event.title}" has been added to your calendar.`);
     }
     setIsEventFormOpen(false);
     setSelectedEvent(undefined);
@@ -77,10 +82,12 @@ export default function Calendar() {
 
   const handleDeleteEvent = () => {
     if (selectedEvent) {
+      const eventTitle = selectedEvent.title;
       setEvents(prev => prev.filter(e => e.id !== selectedEvent.id));
       setIsEventFormOpen(false);
       setSelectedEvent(undefined);
       setSelectedDate(undefined);
+      info('Event Deleted 🗑️', `"${eventTitle}" has been removed from your calendar.`);
     }
   };
 
@@ -126,6 +133,27 @@ export default function Calendar() {
 
             <div className="flex items-center gap-2 sm:gap-3">
               <ThemeToggle />
+
+              {/* Test Hover Card */}
+              <HoverCard>
+                <HoverCardTrigger asChild>
+                  <Button variant="outline" size="sm" className="text-xs">
+                    Test
+                  </Button>
+                </HoverCardTrigger>
+                <HoverCardContent
+                  className="w-64 p-4 bg-card border border-border shadow-2xl"
+                  style={{ zIndex: 9999 }}
+                >
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-foreground">Hover Test</h4>
+                    <p className="text-sm text-muted-foreground">
+                      If you can see this card, hover functionality is working!
+                    </p>
+                    <div className="w-full h-2 bg-green-500 rounded"></div>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
 
               <motion.div
                 whileHover={{ scale: 1.05 }}

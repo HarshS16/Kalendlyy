@@ -3,6 +3,8 @@ import { format, isSameDay, startOfMonth, endOfMonth, eachDayOfInterval, isToday
 import { CalendarEvent } from '@/types/calendar';
 import { Clock, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import EventPreview from '@/components/EventPreview';
 
 interface CalendarListProps {
   currentDate: Date;
@@ -79,24 +81,25 @@ export default function CalendarList({ currentDate, events, onEventClick }: Cale
                 </motion.div>
               ) : (
                 dayEvents.map((event, eventIndex) => (
-                  <motion.div
-                    key={event.id}
-                    className={cn(
-                      "p-3 sm:p-4 rounded-lg border-l-4 cursor-pointer transition-all duration-200 hover:shadow-medium",
-                      categoryColors[event.category || 'personal'],
-                      "hover:scale-[1.02] hover:-translate-y-0.5"
-                    )}
-                    onClick={() => onEventClick(event)}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{
-                      duration: 0.3,
-                      delay: eventIndex * 0.1,
-                      ease: "easeOut"
-                    }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
+                  <HoverCard key={event.id} openDelay={200} closeDelay={100}>
+                    <HoverCardTrigger asChild>
+                      <motion.div
+                        className={cn(
+                          "p-3 sm:p-4 rounded-lg border-l-4 cursor-pointer transition-all duration-200 hover:shadow-medium",
+                          categoryColors[event.category || 'personal'],
+                          "hover:scale-[1.02] hover:-translate-y-0.5"
+                        )}
+                        onClick={() => onEventClick(event)}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{
+                          duration: 0.3,
+                          delay: eventIndex * 0.1,
+                          ease: "easeOut"
+                        }}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <h4 className="font-semibold text-foreground mb-1 text-sm sm:text-base">
@@ -121,7 +124,22 @@ export default function CalendarList({ currentDate, events, onEventClick }: Cale
                         )}
                       </div>
                     </div>
-                  </motion.div>
+                      </motion.div>
+                    </HoverCardTrigger>
+                    <HoverCardContent
+                      side="right"
+                      align="start"
+                      sideOffset={12}
+                      className="z-[9999] max-w-[90vw] sm:max-w-none"
+                      style={{ zIndex: 9999 }}
+                    >
+                      <EventPreview
+                        event={event}
+                        onEdit={onEventClick}
+                        showActions={true}
+                      />
+                    </HoverCardContent>
+                  </HoverCard>
                 ))
               )}
             </div>

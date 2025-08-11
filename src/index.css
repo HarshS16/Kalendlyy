@@ -277,4 +277,104 @@
   [data-radix-select-content][data-state="open"] {
     z-index: 70 !important;
   }
+
+  /* Enhanced hover card styling - Force to top */
+  [data-radix-hover-card-content],
+  .hover-card-content {
+    z-index: 9999 !important;
+    position: fixed !important;
+    animation: slideUpAndFade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    background: hsl(var(--card)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    box-shadow:
+      0 25px 50px -12px rgba(0, 0, 0, 0.25),
+      0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+  }
+
+  /* Ensure hover card portal is on top */
+  [data-radix-popper-content-wrapper],
+  [data-radix-portal] {
+    z-index: 9999 !important;
+  }
+
+  /* Force all hover card related elements to top */
+  [data-state="open"][data-radix-hover-card-content],
+  [data-radix-hover-card-content][data-state="open"] {
+    z-index: 9999 !important;
+    position: fixed !important;
+  }
+
+  /* Override any conflicting z-index */
+  .hover-card-content,
+  [data-radix-hover-card-content] {
+    z-index: 9999 !important;
+  }
+
+  /* Ensure event preview cards are always visible */
+  .event-preview-card {
+    background: hsl(var(--card)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    box-shadow:
+      0 25px 50px -12px rgba(0, 0, 0, 0.25),
+      0 10px 10px -5px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(20px) !important;
+    position: relative;
+    z-index: 9999 !important;
+  }
+
+
+
+  /* Toast container positioning */
+  .toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 100;
+    max-width: 24rem;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  /* Smooth animations for interactive elements */
+  .calendar-day:hover .event-item {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Enhanced glow effects */
+  .glow-blue {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  }
+
+  .glow-emerald {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+  }
+
+  /* Keyframe animations */
+  @keyframes slideUpAndFade {
+    from {
+      opacity: 0;
+      transform: translateY(2px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideDownAndFade {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(2px);
+    }
+  }
 }

@@ -3,6 +3,8 @@ import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInte
 import { CalendarEvent, CalendarDay } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import EventPreview from '@/components/EventPreview';
 
 interface CalendarGridProps {
   currentDate: Date;
@@ -97,25 +99,42 @@ export default function CalendarGrid({ currentDate, events, onDateClick, onEvent
 
                 <div className="space-y-0.5 sm:space-y-1 flex-1">
                   {visibleEvents.map((event, eventIndex) => (
-                    <motion.div
-                      key={event.id}
-                      className={cn(
-                        "text-xs p-0.5 sm:p-1 rounded truncate cursor-pointer transition-all duration-200",
-                        categoryColors[event.category || 'personal'],
-                        "text-white hover:shadow-md"
-                      )}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onEventClick(event);
-                      }}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: eventIndex * 0.1 }}
-                      whileHover={{ scale: 1.05 }}
-                    >
-                      <div className="font-medium truncate">{event.title}</div>
-                      <div className="opacity-80 hidden sm:block">{event.startTime}</div>
-                    </motion.div>
+                    <HoverCard key={event.id} openDelay={200} closeDelay={100}>
+                      <HoverCardTrigger asChild>
+                        <motion.div
+                          className={cn(
+                            "text-xs p-0.5 sm:p-1 rounded truncate cursor-pointer transition-all duration-200",
+                            categoryColors[event.category || 'personal'],
+                            "text-white hover:shadow-md hover:shadow-black/20"
+                          )}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onEventClick(event);
+                          }}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: eventIndex * 0.1 }}
+                          whileHover={{ scale: 1.05, y: -1 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <div className="font-medium truncate">{event.title}</div>
+                          <div className="opacity-80 hidden sm:block">{event.startTime}</div>
+                        </motion.div>
+                      </HoverCardTrigger>
+                      <HoverCardContent
+                        side={isMobile ? "top" : "right"}
+                        align="start"
+                        sideOffset={12}
+                        className="z-[9999] max-w-[90vw] sm:max-w-none"
+                        style={{ zIndex: 9999 }}
+                      >
+                        <EventPreview
+                          event={event}
+                          onEdit={onEventClick}
+                          showActions={false}
+                        />
+                      </HoverCardContent>
+                    </HoverCard>
                   ))}
                   
                   {hasMoreEvents && (
