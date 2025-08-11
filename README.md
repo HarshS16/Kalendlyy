@@ -184,5 +184,3 @@ If you have any questions or need help with the project:
 - Contribute to the project by submitting pull requests
 
 ---
-
-Made with ❤️ using [Lovable](https://lovable.dev/) for rapid UI/UX development
