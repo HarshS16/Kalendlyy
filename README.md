@@ -2,7 +2,6 @@
 
 A modern, interactive calendar application built with React and TypeScript, featuring a beautiful 3D background and smooth animations. Kalendlyy provides an intuitive interface for managing your events with both grid and list views.
 
-![Calendar Preview](https://via.placeholder.com/800x400/3B82F6/FFFFFF?text=Kalendlyy+Calendar+App)
 
 ## ✨ Features
 
